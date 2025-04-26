@@ -2,25 +2,24 @@ import streamlit as st
 
 def calculate_monthly_saving_with_inflation(target_monthly_pension, current_age, pension_start_age, retirement_years, rate_return, inflation):
     r = rate_return / 100 / 12  # 월 수익률
-    i = inflation / 100  # 연 물가상승률 (연 기준)
-    n_total = (pension_start_age - current_age) * 12  # 저축 및 거치 총 기간
+    i = inflation / 100  # 연 물가상승률
+    n_total = (pension_start_age - current_age) * 12
     n_saving = n_total
-    m = retirement_years  # 연금 수령 기간 (연 기준)
+    m = retirement_years
 
-    # 연금 시작 시점 첫 연금 금액 (물가상승 반영)
+    # 연금 시작 시점 첫 월 연금액 (물가상승 반영)
     first_pension = target_monthly_pension * ((1 + i) ** (pension_start_age - current_age))
 
-    # 연금 수령 전체 총액 계산 (매년 연금 인상 반영 - 등비수열 합 공식 사용)
-    # 연금 수령 연 단위 계산 → 월로 환산
+    # 연금 수령 총액 계산 (물가상승 연동 등비수열 or 산술수열 처리)
     if abs(rate_return - inflation) < 1e-6:
-        # 수익률과 물가상승률이 거의 같을 경우, 등비수열 수렴 문제를 방지
-        pv_needed = first_pension * m / ((1 + rate_return / 100) ** (pension_start_age - current_age))
+        # 실질 수익률이 0%인 경우 (물가와 수익이 같음)
+        pv_needed = first_pension * m
     else:
-        g = (1 + i) / (1 + rate_return / 100)  # 물가상승과 수익률을 비교
+        g = (1 + i) / (1 + rate_return / 100)
         pv_needed = first_pension * (1 - g ** m) / (1 - g)
-        pv_needed = pv_needed / ((1 + rate_return / 100) ** (pension_start_age - current_age))  # 현재 시점 가치로 환산
+        pv_needed = pv_needed / ((1 + rate_return / 100) ** (pension_start_age - current_age))
 
-    # 미래 가치 기준으로 필요한 금액
+    # 미래가치 기준 저축 목표
     fv_needed = pv_needed * (1 + r) ** n_total
 
     # 매달 저축할 금액
