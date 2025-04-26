@@ -57,7 +57,7 @@ def generate_pension_table(first_monthly_pension, years, inflation_rate):
 
 # --- Streamlit UI ---
 
-st.markdown("### 📊 연금 준비 계산기 (정확한 일시금 계산 반영)")
+st.markdown("### 📊 필요 연금 월 저축액 계산기 ")
 st.markdown('<p style="color:gray; font-size:13px;">Made by <strong>NOWKO</strong> on Brunch</p>', unsafe_allow_html=True)
 
 st.caption("현재 나이와 원하는 연금 수령 조건을 입력하면, 저축 + 거치 구조로 매달 얼마를 저축해야 하는지를 계산하고, 정확한 연금 흐름을 제공합니다.")
