@@ -92,8 +92,16 @@ if st.button("🧮 계산하기"):
     )
 
     st.subheader(f"👉 매달 저축해야 할 금액: **{monthly_saving / 10000:,.1f}만 원**")
-    st.caption(f"※ {saving_years}년간 저축 후 {pension_start_age - (current_age + saving_years)}년 동안 거치하여 연 {annual_return:.1f}% 수익률로 불려, "
+        # ✨ 여기부터 추가
+    waiting_years = pension_start_age - (current_age + saving_years)
+    if waiting_years > 0:
+        waiting_text = f"{waiting_years}년 동안 거치하여 "
+    else:
+        waiting_text = ""
+    st.caption(f"※ {saving_years}년간 저축 후 {waiting_text}연 {annual_return:.1f}% 수익률로 불려, "
                f"{retirement_years}년간 물가상승률 {annual_inflation:.1f}% 반영 연금을 수령하는 구조입니다.")
+    # ✨ 여기까지
+
     st.markdown("---")
     st.markdown(f"🧾 연금 개시 시점의 월 연금: **{future_monthly_pension / 10000:,.0f}만원**")
     st.markdown(f"💰 연금 개시 시점에 필요 일시금: **{pv_needed / 10000:,.0f}만원**")
