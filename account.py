@@ -22,7 +22,7 @@ current_age = st.number_input("현재 나이", min_value=0, value=30)
 pension_start_age = st.number_input("연금 시작 나이", min_value=current_age+1, value=60)
 target_monthly_pension = st.number_input("원하는 월 연금 수령액 (만원)", min_value=0, value=200, step=10)
 retirement_years = st.number_input("연금 수령 기간 (년)", min_value=1, value=30)
-rate_return = st.number_input("연 수익률 (%)", min_value=0.0, value=3.0)
+rate_return = st.number_input("연 수익률 (%)", min_value=0.0, value=2.7)
 inflation = st.number_input("연 물가상승률 (%)", min_value=0.0, value=2.0)
 
 # 🧮 계산
