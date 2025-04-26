@@ -31,11 +31,12 @@ def calculate_monthly_saving_with_deposit_then_wait(
 def generate_pension_table(first_monthly_pension, years, inflation_rate):
     data = []
     for year in range(1, years + 1):
-        annual_pension = first_monthly_pension * ((1 + inflation_rate / 100) ** (year - 1)) * 12
+        monthly_pension = first_monthly_pension * ((1 + inflation_rate / 100) ** (year - 1))
+        annual_pension = monthly_pension * 12
         data.append({
             "연차": f"{year}년차",
-            "예상 월 연금 (원)": round(first_monthly_pension * ((1 + inflation_rate / 100) ** (year - 1))),
-            "연간 합계 (원)": round(annual_pension)
+            "예상 월 연금": f"{monthly_pension / 10000:,.0f}만원",
+            "연간 합계": f"{annual_pension / 10000:,.0f}만원"
         })
     return pd.DataFrame(data)
 
@@ -89,8 +90,3 @@ if st.button("🧮 계산하기"):
     st.markdown("### 📋 연금 흐름표 (물가상승률 반영)")
     df_pension = generate_pension_table(future_monthly_pension, retirement_years, annual_inflation)
     st.dataframe(df_pension, use_container_width=True)
-
-    # 📈 저축 누적 그래프
-    st.markdown("### 📈 저축 누적 추이")
-    df_saving = generate_saving_growth_data(monthly_saving, saving_years * 12, annual_return / 100 / 12)
-    st.line_chart(df_saving.set_index("개월"))
