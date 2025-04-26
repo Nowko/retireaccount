@@ -76,8 +76,8 @@ saving_years = st.number_input(
 )
 
 retirement_years = st.number_input("연금 수령 기간 (년)", min_value=1, value=30)
-annual_return = st.number_input("연 수익률 (%)", min_value=0.0, value=2.0)
-annual_inflation = st.number_input("연 물가상승률 (%)", min_value=0.0, value=2.0)
+annual_return = st.number_input("연 수익률 (%)", min_value=0.0, value=2.7)
+annual_inflation = st.number_input("연 물가상승률 (%)", min_value=0.0, value=2.1)
 
 # 🧮 계산
 if st.button("🧮 계산하기"):
