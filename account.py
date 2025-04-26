@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
 
 def calculate_monthly_saving_with_deposit_then_wait(
     current_age, pension_start_age, saving_years,
@@ -40,18 +39,17 @@ def generate_pension_table(first_monthly_pension, years, inflation_rate):
         })
     return pd.DataFrame(data)
 
-def plot_saving_growth(monthly_saving, months, monthly_rate):
+def generate_saving_growth_data(monthly_saving, months, monthly_rate):
     balance = []
     total = 0
     for i in range(months):
         total = (total + monthly_saving) * (1 + monthly_rate)
-        balance.append(total / 1_000_000)  # 단위: 만 원
-    fig, ax = plt.subplots()
-    ax.plot(range(1, months + 1), balance)
-    ax.set_title("누적 저축액 추이")
-    ax.set_xlabel("저축 개월")
-    ax.set_ylabel("누적 금액 (만원)")
-    return fig
+        balance.append(total / 1_000_000)  # 만원 단위
+    df = pd.DataFrame({
+        "개월": list(range(1, months + 1)),
+        "누적 금액 (만원)": balance
+    })
+    return df
 
 # --- Streamlit UI ---
 
@@ -89,10 +87,10 @@ if st.button("🧮 계산하기"):
 
     # 📋 연금 흐름표
     st.markdown("### 📋 연금 흐름표 (물가상승률 반영)")
-    df = generate_pension_table(future_monthly_pension, retirement_years, annual_inflation)
-    st.dataframe(df, use_container_width=True)
+    df_pension = generate_pension_table(future_monthly_pension, retirement_years, annual_inflation)
+    st.dataframe(df_pension, use_container_width=True)
 
-    # 📈 저축 누적액 그래프
+    # 📈 저축 누적 그래프
     st.markdown("### 📈 저축 누적 추이")
-    fig = plot_saving_growth(monthly_saving, saving_years * 12, annual_return / 100 / 12)
-    st.pyplot(fig)
+    df_saving = generate_saving_growth_data(monthly_saving, saving_years * 12, annual_return / 100 / 12)
+    st.line_chart(df_saving.set_index("개월"))
