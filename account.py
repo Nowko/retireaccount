@@ -54,7 +54,7 @@ def generate_saving_growth_data(monthly_saving, months, monthly_rate):
 
 # --- Streamlit UI ---
 
-st.markdown("### 📊 거치형 연금 준비 계산기 (20년 저축 + 10년 거치 + 연금 흐름표 포함)")
+st.markdown("### 📊 연금 준비 계산기")
 st.markdown('<p style="color:gray; font-size:13px;">Made by <strong>NOWKO</strong> on Brunch</p>', unsafe_allow_html=True)
 
 st.caption("현재 나이와 원하는 연금 수령 조건을 입력하면, 저축 + 거치 구조로 매달 얼마를 저축해야 하는지를 계산하고, 연금 흐름과 저축 그래프를 함께 제공합니다.")
